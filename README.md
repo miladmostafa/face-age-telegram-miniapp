@@ -8,6 +8,20 @@ Built for beauty shops and creators who sell through Telegram channels in Iran, 
 
 ![npm face-age](https://img.shields.io/npm/v/face-age.svg)
 
+## Screenshots
+
+Captured in a desktop browser, outside Telegram. The Face Age widget keeps its own internal frame.
+
+![Setup screen asking for a Face Age Client ID, with a link to the panel](docs/screenshots/missing-client-id.png)
+
+![English Telegram skin scanner with Face Age instructions and a camera or upload note](docs/screenshots/scanner-en.png)
+
+![Sample Lumen Atelier shelf of five skincare products with prices](docs/screenshots/sample-shelf.png)
+
+![Sample order receipt for Cloud Serum, stating that no photo was sent to the bot](docs/screenshots/order-handoff.png)
+
+![Persian right-to-left Mini App with Face Age instructions in Persian](docs/screenshots/scanner-fa.png)
+
 ## Features
 
 - Telegram Mini App shell that reads the shopper's language and Telegram theme colors.
