@@ -181,7 +181,7 @@ The widget creates its own internal frame, `iframe#FaceAge-module-iframe`, and w
 
 ### Camera limits
 
-Telegram webviews do not offer the camera on every phone. iOS and Android often block `getUserMedia` inside a Mini App. This app leaves both Face Age inputs on (`showCamera` and `showUpload`). When the platform is iOS, Android, or a Telegram webview, the page tells the shopper to use **Upload photo**. Upload uses the same analysis as the camera.
+Telegram webviews do not offer the camera on every phone. iOS and Android often block `getUserMedia` inside a Mini App. When Telegram reports iOS, Android, or a webview, or when the browser has no camera, the scanner opens on photo upload (`showUpload: true` and `showCamera: false`). Otherwise both inputs stay on. Upload uses the same analysis as the camera. The widget's own frame stays in the page.
 
 ## Scripts
 

@@ -60,6 +60,21 @@ export function prefersUploadFallback(platform: string | undefined): boolean {
   return value === "ios" || value === "android" || value === "android_x" || value === "weba" || value === "webk";
 }
 
+/** Offer the in-widget camera only when a device exists and Telegram is not blocking it. */
+export function shouldOfferCamera(platform: string | undefined, hasCamera: boolean): boolean {
+  return hasCamera && !prefersUploadFallback(platform);
+}
+
+export async function browserHasCamera(): Promise<boolean> {
+  if (!navigator.mediaDevices?.enumerateDevices) return false;
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    return devices.some((device) => device.kind === "videoinput");
+  } catch {
+    return false;
+  }
+}
+
 export function applyTelegramTheme(webApp: TelegramWebApp | null, scheme?: "light" | "dark"): ThemeVars {
   const vars = themeVars(webApp?.themeParams, scheme ?? webApp?.colorScheme);
   const root = document.documentElement;

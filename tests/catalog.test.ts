@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { assertCatalog, loadSampleCatalog, resolveCatalog } from "../src/shared/products";
 import { readClientId } from "../src/config";
-import { prefersUploadFallback } from "../src/telegram";
+import { prefersUploadFallback, shouldOfferCamera } from "../src/telegram";
 import { sanitizeAnalysis } from "../src/shared/analysis";
 import { themeVars } from "../src/shared/theme";
 
@@ -30,6 +30,16 @@ describe("camera fallback platforms", () => {
     expect(prefersUploadFallback("android")).toBe(true);
     expect(prefersUploadFallback("tdesktop")).toBe(false);
     expect(prefersUploadFallback(undefined)).toBe(false);
+  });
+
+  it("opens the camera only when a device exists outside a phone webview", () => {
+    expect(shouldOfferCamera("ios", true)).toBe(false);
+    expect(shouldOfferCamera("android", true)).toBe(false);
+    expect(shouldOfferCamera("weba", true)).toBe(false);
+    expect(shouldOfferCamera("tdesktop", false)).toBe(false);
+    expect(shouldOfferCamera("tdesktop", true)).toBe(true);
+    expect(shouldOfferCamera(undefined, false)).toBe(false);
+    expect(shouldOfferCamera(undefined, true)).toBe(true);
   });
 });
 

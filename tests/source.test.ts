@@ -63,7 +63,7 @@ describe("repository guards", () => {
     expect(scanner).toContain("onAddToCart");
     expect(scanner).toContain("onCheckout");
     expect(scanner).toContain("showUpload: true");
-    expect(scanner).toContain("showCamera: true");
+    expect(scanner).toContain("showCamera: options.showCamera");
     expect(scanner).not.toContain("<iframe");
     expect(scanner).not.toContain("createElement(\"iframe\")");
     expect(scanner).not.toContain("removeChild");

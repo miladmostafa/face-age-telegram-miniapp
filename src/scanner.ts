@@ -10,6 +10,7 @@ export interface ScannerMountOptions {
   clientId: string;
   currency: string;
   height: string;
+  showCamera: boolean;
   products: FaceAgeProduct[];
   privacyUrl?: string;
   handlers: ScannerHandlers;
@@ -33,7 +34,7 @@ export async function mountScanner(options: ScannerMountOptions): Promise<void> 
     showProducts: true,
     showRoutine: true,
     showAddToCard: true,
-    showCamera: true,
+    showCamera: options.showCamera,
     showUpload: true,
     ...(options.privacyUrl ? { privacyUrl: options.privacyUrl } : {}),
   });

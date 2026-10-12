@@ -18,8 +18,9 @@ import {
   applyTelegramTheme,
   bindThemeUpdates,
   isInsideTelegram,
-  prefersUploadFallback,
+  browserHasCamera,
   readTelegramWebApp,
+  shouldOfferCamera,
   type TelegramWebApp,
 } from "./telegram";
 
@@ -57,7 +58,9 @@ const demo = requiredElement<HTMLElement>("#demo");
 requiredElement<HTMLElement>("#FaceAge-module");
 requiredElement<HTMLElement>("#shelf");
 
-fillStaticCopy();
+const offerCamera = shouldOfferCamera(webApp?.platform, await browserHasCamera());
+
+fillStaticCopy(offerCamera);
 renderShelf(catalog.products);
 
 webApp?.ready();
@@ -166,6 +169,7 @@ if (!clientId || forceSetupPreview) {
       clientId,
       currency,
       height: scannerHeight(window.innerHeight),
+      showCamera: offerCamera,
       products: resolved.products,
       privacyUrl: privacyLink(),
       handlers: {
@@ -198,14 +202,13 @@ function privacyLink(): string | undefined {
   }
 }
 
-function fillStaticCopy(): void {
+function fillStaticCopy(offerCamera: boolean): void {
   document.title = `${translate("title")} · ${shopName}`;
   text("#eyebrow", translate("eyebrow"));
   text("#title", translate("title"));
   text("#lede", translate("lede"));
   text("#shop-name", shopName);
-  const mobile = prefersUploadFallback(webApp?.platform);
-  text("#camera-note", translate(mobile ? "cameraNoteMobile" : "cameraNote"));
+  text("#camera-note", translate(offerCamera ? "cameraNote" : "cameraNoteMobile"));
   text("#setup-title", translate("setupTitle"));
   text("#setup-body", translate("setupBody"));
   text("#setup-step-1", translate("setupStep1"));
