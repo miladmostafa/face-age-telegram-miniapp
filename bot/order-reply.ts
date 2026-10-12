@@ -4,7 +4,7 @@ import { buildOrderLink, escapeHtml, formatPrice, type OrderPayload } from "../s
 /** Telegram HTML reply. Product text is escaped. Photos are never included. */
 export function formatOrderReply(payload: OrderPayload, orderBaseUrl?: string): string {
   const lines = [
-    `<b>${escapeHtml(translate(payload.lang, "botOrderTitle"))}</b>`,
+    `<b>${escapeHtml(translate("botOrderTitle"))}</b>`,
     escapeHtml(payload.shop),
     "",
   ];
@@ -19,28 +19,28 @@ export function formatOrderReply(payload: OrderPayload, orderBaseUrl?: string): 
 
   const link = buildOrderLink(payload.items, orderBaseUrl);
   if (link) {
-    lines.push("", `<a href="${escapeHtml(link)}">${escapeHtml(translate(payload.lang, "botComplete"))}</a>`);
+    lines.push("", `<a href="${escapeHtml(link)}">${escapeHtml(translate("botComplete"))}</a>`);
   }
 
   lines.push("");
   if (payload.shareResults && payload.summary) {
-    lines.push(escapeHtml(translate(payload.lang, "botShared")));
+    lines.push(escapeHtml(translate("botShared")));
     if (payload.summary.skinAge != null) {
-      lines.push(escapeHtml(translate(payload.lang, "botSkinAge", { value: payload.summary.skinAge })));
+      lines.push(escapeHtml(translate("botSkinAge", { value: payload.summary.skinAge })));
     }
     if (payload.summary.damagePercentage != null) {
-      lines.push(escapeHtml(translate(payload.lang, "botSkinDamage", { value: payload.summary.damagePercentage })));
+      lines.push(escapeHtml(translate("botSkinDamage", { value: payload.summary.damagePercentage })));
     }
     for (const problem of payload.summary.problems) {
       const label = problem.title || problem.key;
       const score = problem.score != null ? `: ${problem.score}` : "";
       lines.push(`• ${escapeHtml(label)}${escapeHtml(score)}`);
     }
-    lines.push(escapeHtml(translate(payload.lang, "botNotDiagnosis")));
+    lines.push(escapeHtml(translate("botNotDiagnosis")));
   } else if (payload.shareResults) {
-    lines.push(escapeHtml(translate(payload.lang, "botSharedEmpty")));
+    lines.push(escapeHtml(translate("botSharedEmpty")));
   } else {
-    lines.push(escapeHtml(translate(payload.lang, "botNoPhoto")));
+    lines.push(escapeHtml(translate("botNoPhoto")));
   }
 
   return lines.join("\n");

@@ -1,7 +1,6 @@
 import "./style.css";
 import { readClientId, readOptionalEnv } from "./config";
 import { deliverOrder, type HandoffChannel } from "./shared/handoff";
-import { isRtlLanguage, resolveLanguage } from "./shared/language";
 import { translate } from "./shared/messages";
 import {
   buildOrderLink,
@@ -30,15 +29,6 @@ assertCatalog(catalog);
 const webApp = readTelegramWebApp();
 const insideTelegram = isInsideTelegram(webApp);
 const params = new URLSearchParams(window.location.search);
-const language = resolveLanguage({
-  telegramCode: webApp?.initDataUnsafe.user?.language_code,
-  queryCode: params.get("lang"),
-  navigatorCode: navigator.language,
-  insideTelegram,
-});
-
-document.documentElement.lang = language;
-document.documentElement.dir = isRtlLanguage(language) ? "rtl" : "ltr";
 
 let theme = applyTelegramTheme(webApp);
 bindThemeUpdates(webApp, (next) => {
@@ -97,7 +87,6 @@ async function handoff(action: OrderAction, lines: CartLine[]): Promise<void> {
   try {
     const payload = buildOrderPayload({
       action,
-      lang: language,
       shop: shopName,
       currency,
       lines: selected,
@@ -121,7 +110,7 @@ async function handoff(action: OrderAction, lines: CartLine[]): Promise<void> {
     renderReceipt(payload, channel);
     revealMainButton(webApp, channel);
   } catch (error) {
-    const message = error instanceof Error ? error.message : translate(language, "receiptPreview");
+    const message = error instanceof Error ? error.message : translate("receiptPreview");
     receipt.hidden = false;
     receipt.textContent = message;
   } finally {
@@ -132,7 +121,7 @@ async function handoff(action: OrderAction, lines: CartLine[]): Promise<void> {
 function revealMainButton(app: TelegramWebApp | null, channel: HandoffChannel): void {
   if (!app || channel === "sendData") return;
   app.MainButton.setParams({
-    text: translate(language, "mainButton"),
+    text: translate("mainButton"),
     color: theme.accent,
     text_color: theme.accentText,
     is_visible: true,
@@ -175,7 +164,6 @@ if (!clientId || forceSetupPreview) {
   try {
     await mountScanner({
       clientId,
-      language,
       currency,
       height: scannerHeight(window.innerHeight),
       products: resolved.products,
@@ -211,28 +199,28 @@ function privacyLink(): string | undefined {
 }
 
 function fillStaticCopy(): void {
-  document.title = `${translate(language, "title")} · ${shopName}`;
-  text("#eyebrow", translate(language, "eyebrow"));
-  text("#title", translate(language, "title"));
-  text("#lede", translate(language, "lede"));
+  document.title = `${translate("title")} · ${shopName}`;
+  text("#eyebrow", translate("eyebrow"));
+  text("#title", translate("title"));
+  text("#lede", translate("lede"));
   text("#shop-name", shopName);
   const mobile = prefersUploadFallback(webApp?.platform);
-  text("#camera-note", translate(language, mobile ? "cameraNoteMobile" : "cameraNote"));
-  text("#setup-title", translate(language, "setupTitle"));
-  text("#setup-body", translate(language, "setupBody"));
-  text("#setup-step-1", translate(language, "setupStep1"));
-  text("#setup-step-2", translate(language, "setupStep2"));
-  text("#setup-step-3", translate(language, "setupStep3"));
-  text("#share-label", translate(language, "shareLabel"));
-  text("#share-hint", translate(language, "shareHint"));
-  text("#shelf-title", translate(language, "shelfTitle"));
-  text("#shelf-body", translate(language, "shelfBody"));
-  text("#demo-note", translate(language, "demoNote"));
-  text("#demo-order", translate(language, "demoButton"));
-  text("#privacy-title", translate(language, "privacyTitle"));
-  text("#privacy-p1", translate(language, "privacyP1"));
-  text("#privacy-p2", translate(language, "privacyP2"));
-  text("#privacy-p3", translate(language, "privacyP3"));
+  text("#camera-note", translate(mobile ? "cameraNoteMobile" : "cameraNote"));
+  text("#setup-title", translate("setupTitle"));
+  text("#setup-body", translate("setupBody"));
+  text("#setup-step-1", translate("setupStep1"));
+  text("#setup-step-2", translate("setupStep2"));
+  text("#setup-step-3", translate("setupStep3"));
+  text("#share-label", translate("shareLabel"));
+  text("#share-hint", translate("shareHint"));
+  text("#shelf-title", translate("shelfTitle"));
+  text("#shelf-body", translate("shelfBody"));
+  text("#demo-note", translate("demoNote"));
+  text("#demo-order", translate("demoButton"));
+  text("#privacy-title", translate("privacyTitle"));
+  text("#privacy-p1", translate("privacyP1"));
+  text("#privacy-p2", translate("privacyP2"));
+  text("#privacy-p3", translate("privacyP3"));
 }
 
 function renderShelf(products: CatalogProduct[]): void {
@@ -263,7 +251,7 @@ function renderReceipt(payload: OrderPayload, channel: HandoffChannel | "pending
   receipt.hidden = false;
   receipt.replaceChildren();
   const heading = document.createElement("h2");
-  heading.textContent = translate(language, "receiptTitle");
+  heading.textContent = translate("receiptTitle");
   const status = document.createElement("p");
   const statusKey =
     channel === "pending"
@@ -273,7 +261,7 @@ function renderReceipt(payload: OrderPayload, channel: HandoffChannel | "pending
         : channel === "bot"
           ? "receiptBot"
           : "receiptPreview";
-  status.textContent = translate(language, statusKey);
+  status.textContent = translate(statusKey);
   const list = document.createElement("ol");
   for (const item of payload.items) {
     const row = document.createElement("li");
@@ -289,12 +277,12 @@ function renderReceipt(payload: OrderPayload, channel: HandoffChannel | "pending
     anchor.href = link;
     anchor.target = "_blank";
     anchor.rel = "noreferrer";
-    anchor.textContent = translate(language, "botComplete");
+    anchor.textContent = translate("botComplete");
     receipt.append(anchor);
   }
   if (payload.shareResults) {
     const note = document.createElement("p");
-    note.textContent = translate(language, payload.summary ? "botShared" : "botSharedEmpty");
+    note.textContent = translate(payload.summary ? "botShared" : "botSharedEmpty");
     receipt.append(note);
   }
 }

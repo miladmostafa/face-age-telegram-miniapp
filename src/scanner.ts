@@ -8,7 +8,6 @@ export interface ScannerHandlers {
 
 export interface ScannerMountOptions {
   clientId: string;
-  language: string;
   currency: string;
   height: string;
   products: FaceAgeProduct[];
@@ -27,7 +26,7 @@ export async function mountScanner(options: ScannerMountOptions): Promise<void> 
     elementId: "FaceAge-module",
     faceageId: options.clientId,
     displayModel: "section",
-    language: options.language,
+    language: "en",
     height: options.height,
     currency: options.currency,
     quiz: false,

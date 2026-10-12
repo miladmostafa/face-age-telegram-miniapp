@@ -62,7 +62,6 @@ function lineKey(id: string, variant: Record<string, string> | undefined): strin
  */
 export function buildOrderPayload(input: {
   action: OrderAction;
-  lang: string;
   shop: string;
   currency: string;
   lines: CartLine[];
@@ -97,7 +96,7 @@ export function buildOrderPayload(input: {
     v: 1,
     type: "order",
     action: input.action,
-    lang: clampText(input.lang || "en", 8) || "en",
+    lang: "en",
     shop: clampText(input.shop, 60) || "Shop",
     currency: clampText(input.currency || "$", 8) || "$",
     items: [...grouped.values()].slice(0, 12),
@@ -176,7 +175,7 @@ export function parseOrderPayload(raw: string): OrderPayload | null {
     v: 1,
     type: "order",
     action: record.action,
-    lang: typeof record.lang === "string" ? record.lang.slice(0, 8) : "en",
+    lang: "en",
     shop: typeof record.shop === "string" ? record.shop.slice(0, 60) : "Shop",
     currency: typeof record.currency === "string" ? record.currency.slice(0, 8) : "$",
     items: record.items.map((item) => ({

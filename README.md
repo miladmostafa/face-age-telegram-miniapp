@@ -1,10 +1,10 @@
 # Telegram Mini App Skin Scanner for Beauty Shops
 
-A Telegram Mini App and a small grammY bot that let a beauty shop run an in-chat **skin scanner**. Shoppers open Face Age in their own language, including right-to-left Persian, Arabic, and Urdu, then send the products they want back to the shop bot.
+A Telegram Mini App and a small grammY bot that let a beauty shop run an in-chat **skin scanner**. Shoppers open Face Age in English, then send the products they want back to the shop bot.
 
 The scanner is the browser widget from the [`face-age`](https://www.npmjs.com/package/face-age) package by [Face Age](https://getfaceage.com/). It estimates skin age, a skin-health or damage score, and 13 visible concerns. It does not estimate real age or gender. Photos are analyzed in the Face Age cloud.
 
-Built for beauty shops and creators who sell through Telegram channels in Iran, the CIS, and the Middle East.
+Built for beauty shops and creators who sell skincare through Telegram. The shop shell and the Face Age widget stay in English, so the skin-age estimate, concern list, and order text read the same for every shopper.
 
 ![npm face-age](https://img.shields.io/npm/v/face-age.svg)
 
@@ -20,12 +20,10 @@ Captured in a desktop browser, outside Telegram. The Face Age widget keeps its o
 
 ![Sample order receipt for Cloud Serum, stating that no photo was sent to the bot](docs/screenshots/order-handoff.png)
 
-![Persian right-to-left Mini App with Face Age instructions in Persian](docs/screenshots/scanner-fa.png)
-
 ## Features
 
-- Telegram Mini App shell that reads the shopper's language and Telegram theme colors.
-- Face Age widget rendered in one of 40 languages, with RTL layout for `fa`, `ar`, and `ur`.
+- Telegram Mini App shell that follows Telegram theme colors.
+- Face Age widget rendered in English.
 - Camera capture plus an upload-photo path for Telegram webviews that block the camera.
 - Sample beauty-shop catalog passed in with `API.setCustomProducts()`.
 - Add to cart and checkout call `Telegram.WebApp.sendData`, so the bot can reply with an order link.
@@ -35,7 +33,7 @@ Captured in a desktop browser, outside Telegram. The Face Age widget keeps its o
 ## How it works
 
 1. The shop posts a **Check your skin** button, or the shopper opens the bot and taps the keyboard button.
-2. The Mini App reads `language_code` from Telegram and opens Face Age in that language. Persian, Arabic, and Urdu use RTL.
+2. The Mini App opens Face Age in English.
 3. The shopper scans with the camera or uploads a photo and sees skin age, skin health, concerns, and the shop's products.
 4. **Add to cart** sends the product (name, price, link, chosen size) with `Telegram.WebApp.sendData`. The photo is not attached.
 5. The bot replies in the chat with an order link. Checkout sends the whole cart the same way.
@@ -70,7 +68,7 @@ Start the Mini App:
 npm run dev
 ```
 
-Open `http://localhost:5173`. Add `?lang=fa` to preview Persian (RTL) outside Telegram. Add `?preview=setup` to preview the missing Client ID screen.
+Open `http://localhost:5173`. Add `?preview=setup` to preview the missing Client ID screen.
 
 In another terminal, after you set `BOT_TOKEN`:
 
@@ -120,15 +118,9 @@ Telegram only accepts an **HTTPS** Mini App URL (a tunnel or a deployed host). `
 
 The page resolves image paths to absolute URLs and calls `faceAge.API.setCustomProducts()` after `render()`.
 
-### Languages
+### Language
 
-Face Age supports 40 language codes:
-
-`ar` `bg` `bn` `cs` `da` `de` `el` `en` `es` `et` `fa` `fi` `fr` `he` `hi` `hr` `hu` `id` `it` `ja` `ko` `lt` `lv` `ms` `nl` `no` `pl` `pt` `ro` `ru` `sk` `sr` `sv` `th` `tl` `tr` `uk` `ur` `vi` `zh`
-
-The Mini App maps Telegram codes such as `fa-IR`, `pt-br`, `zh-hans`, `nb`, and `fil` onto that list. Unknown codes use English. `fa`, `ar`, and `ur` set `dir="rtl"` on the page. Face Age applies the same RTL switch inside the widget.
-
-The shop shell is translated for English, Persian, Arabic, Urdu, and Russian. Other languages still drive the Face Age widget; the shell falls back to English.
+The Mini App shell and the Face Age widget are English. The widget is mounted with `language: "en"`.
 
 ## Deploy
 
@@ -197,7 +189,7 @@ Telegram webviews do not offer the camera on every phone. iOS and Android often 
 | --- | --- |
 | `npm run dev` | Vite dev server for the Mini App. |
 | `npm run bot` | grammY long polling. |
-| `npm test` | Unit tests (order payload, language, initData, handoff). |
+| `npm test` | Unit tests (order payload, English copy, initData, handoff). |
 | `npm run lint` | ESLint. |
 | `npm run build` | Typecheck and production build. |
 | `npm run check` | Lint, test, and build. |

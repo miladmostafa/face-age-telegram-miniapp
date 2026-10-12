@@ -1,63 +1,32 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { FACE_AGE_LANGUAGES, isRtlLanguage, mapTelegramLanguage, resolveLanguage } from "../src/shared/language";
+import { MESSAGE_KEYS, translate } from "../src/shared/messages";
 
-describe("mapTelegramLanguage", () => {
-  it("accepts every face-age language code", () => {
-    for (const code of FACE_AGE_LANGUAGES) {
-      expect(mapTelegramLanguage(code)).toBe(code);
+describe("English copy", () => {
+  it("returns an English string for every shell message", () => {
+    for (const key of MESSAGE_KEYS) {
+      const text = translate(key);
+      expect(text.length).toBeGreaterThan(0);
+      expect(text).not.toMatch(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/);
+      expect(text).not.toMatch(/[\u0400-\u04FF]/);
     }
-    expect(FACE_AGE_LANGUAGES).toHaveLength(40);
-  });
-
-  it("maps regional and legacy Telegram codes", () => {
-    expect(mapTelegramLanguage("fa-IR")).toBe("fa");
-    expect(mapTelegramLanguage("pt-BR")).toBe("pt");
-    expect(mapTelegramLanguage("zh-hans")).toBe("zh");
-    expect(mapTelegramLanguage("en_US")).toBe("en");
-    expect(mapTelegramLanguage("nb")).toBe("no");
-    expect(mapTelegramLanguage("nn-NO")).toBe("no");
-    expect(mapTelegramLanguage("fil")).toBe("tl");
-    expect(mapTelegramLanguage("in")).toBe("id");
-    expect(mapTelegramLanguage("iw")).toBe("he");
-    expect(mapTelegramLanguage("ua")).toBe("uk");
-  });
-
-  it("falls back to English", () => {
-    expect(mapTelegramLanguage(null)).toBe("en");
-    expect(mapTelegramLanguage("")).toBe("en");
-    expect(mapTelegramLanguage("xx")).toBe("en");
+    expect(translate("title")).toBe("Check your skin");
+    expect(translate("lede")).toContain("Scan your skin");
+    expect(translate("botSkinAge", { value: 36 })).toBe("Skin age: 36");
+    expect(translate("botSkinDamage", { value: 12 })).toBe("Skin damage: 12%");
   });
 });
 
-describe("RTL and resolution", () => {
-  it("flags Persian, Arabic, and Urdu", () => {
-    expect(isRtlLanguage("fa")).toBe(true);
-    expect(isRtlLanguage("ar")).toBe(true);
-    expect(isRtlLanguage("ur")).toBe(true);
-    expect(isRtlLanguage("en")).toBe(false);
-    expect(isRtlLanguage("he")).toBe(false);
-    expect(isRtlLanguage("ru")).toBe(false);
-  });
-
-  it("prefers the Telegram language inside a Mini App", () => {
-    expect(
-      resolveLanguage({
-        telegramCode: "fa",
-        queryCode: "en",
-        navigatorCode: "ru",
-        insideTelegram: true,
-      }),
-    ).toBe("fa");
-  });
-
-  it("uses the query language only outside Telegram", () => {
-    expect(
-      resolveLanguage({
-        telegramCode: "fa",
-        queryCode: "ar",
-        navigatorCode: "ru",
-        insideTelegram: false,
-      }),
-    ).toBe("ar");
+describe("English widget", () => {
+  it("mounts Face Age in English and does not switch page direction", () => {
+    const scanner = readFileSync("src/scanner.ts", "utf8");
+    const main = readFileSync("src/main.ts", "utf8");
+    const html = readFileSync("index.html", "utf8");
+    expect(scanner).toContain('language: "en"');
+    expect(scanner).not.toContain("options.language");
+    expect(main).not.toContain("isRtlLanguage");
+    expect(main).not.toContain("documentElement.dir");
+    expect(html).toContain('lang="en"');
+    expect(html).not.toContain("Noto Sans Arabic");
   });
 });

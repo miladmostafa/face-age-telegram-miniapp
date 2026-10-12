@@ -14,7 +14,6 @@ describe("buildOrderPayload", () => {
   it("keeps catalog products and drops unknown lines", () => {
     const payload = buildOrderPayload({
       action: "add_to_cart",
-      lang: "fa-IR",
       shop: "Lumen Atelier",
       currency: "$",
       lines: [
@@ -27,7 +26,7 @@ describe("buildOrderPayload", () => {
       summary: { skinAge: 31, problems: [{ key: "acne", score: 12 }] },
     });
 
-    expect(payload.lang).toBe("fa-IR");
+    expect(payload.lang).toBe("en");
     expect(payload.items).toHaveLength(1);
     expect(payload.items[0]).toMatchObject({ id: "cloud-serum", qty: 2, variant: { size: "30" } });
     expect(payload.summary).toBeUndefined();
@@ -39,7 +38,6 @@ describe("buildOrderPayload", () => {
   it("attaches a summary only when the shopper opts in", () => {
     const payload = buildOrderPayload({
       action: "checkout",
-      lang: "en",
       shop: "Lumen Atelier",
       currency: "$",
       lines: [{ id: "eye-bright" }],
@@ -59,7 +57,7 @@ describe("parseOrderPayload", () => {
       v: 1,
       type: "order",
       action: "add_to_cart",
-      lang: "en",
+      lang: "fr",
       shop: "Lumen Atelier",
       currency: "$",
       shareResults: false,
@@ -77,6 +75,7 @@ describe("parseOrderPayload", () => {
       ],
     });
     const parsed = parseOrderPayload(raw);
+    expect(parsed?.lang).toBe("en");
     expect(parsed?.items[0]?.id).toBe("cloud-serum");
     expect(parsed?.items[0]).not.toHaveProperty("image");
     expect(JSON.stringify(parsed)).not.toContain("base64");
@@ -95,7 +94,6 @@ describe("order link and encoding", () => {
   it("builds a checkout link and escapes HTML", () => {
     const payload = buildOrderPayload({
       action: "add_to_cart",
-      lang: "en",
       shop: "A & B",
       currency: "$",
       lines: [{ id: "pore-veil" }, { id: "calm-cleanser" }],

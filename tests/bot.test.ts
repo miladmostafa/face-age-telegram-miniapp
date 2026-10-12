@@ -9,7 +9,7 @@ import { translate } from "../src/shared/messages";
 
 const token = "123456:TESTTOKEN";
 const fixedInitData =
-  "auth_date=1700000000&query_id=AAE123&user=%7B%22id%22%3A42%2C%22first_name%22%3A%22Ada%22%2C%22language_code%22%3A%22fa%22%7D&hash=1e97a99a0944b1904ec235a1f1d9d78687ae80ec604caf1268d7ff48d51cada5";
+  "auth_date=1700000000&query_id=AAE123&user=%7B%22id%22%3A42%2C%22first_name%22%3A%22Ada%22%2C%22language_code%22%3A%22en%22%7D&hash=97c5568acf6a0f558d3265812fdb2cb1315fb70723ea0e3d36761b577ced07d9";
 
 describe("initData", () => {
   it("accepts a known signed payload and rejects tampering", () => {
@@ -31,7 +31,6 @@ describe("initData", () => {
 describe("order reply", () => {
   const payload = buildOrderPayload({
     action: "add_to_cart",
-    lang: "fa",
     shop: "Lumen <Atelier>",
     currency: "$",
     lines: [{ id: "cloud-serum" }],
@@ -42,8 +41,8 @@ describe("order reply", () => {
   it("includes an order link and no photo or score by default", () => {
     const text = formatOrderReply(payload, "https://shop.example/checkout");
     expect(text).toContain("https://shop.example/checkout?items=cloud-serum");
-    expect(text).toContain(translate("fa", "botOrderTitle"));
-    expect(text).toContain(translate("fa", "botNoPhoto"));
+    expect(text).toContain(translate("botOrderTitle"));
+    expect(text).toContain(translate("botNoPhoto"));
     expect(text).not.toContain("skin age");
     expect(text).not.toContain("<Atelier>");
     expect(text).toContain("&lt;Atelier&gt;");
@@ -58,9 +57,9 @@ describe("order reply", () => {
       },
       "https://shop.example/checkout",
     );
-    expect(shared).toContain(translate("fa", "botSkinAge", { value: 36 }));
+    expect(shared).toContain(translate("botSkinAge", { value: 36 }));
     expect(shared).toContain("Acne: 9");
-    expect(shared).toContain(translate("fa", "botNotDiagnosis"));
+    expect(shared).toContain(translate("botNotDiagnosis"));
   });
 });
 

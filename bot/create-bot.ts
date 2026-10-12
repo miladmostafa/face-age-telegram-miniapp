@@ -13,13 +13,12 @@ export function createBot(token: string, options: BotRuntimeOptions): Bot {
   const bot = new Bot(token);
 
   bot.command("start", async (ctx) => {
-    const lang = ctx.from?.language_code ?? "en";
     if (!options.miniAppUrl) {
-      await ctx.reply(translate(lang, "botMissingUrl"));
+      await ctx.reply(translate("botMissingUrl"));
       return;
     }
-    const keyboard = new Keyboard().webApp(translate(lang, "botButton"), options.miniAppUrl).resized();
-    await ctx.reply(translate(lang, "botWelcome"), { reply_markup: keyboard });
+    const keyboard = new Keyboard().webApp(translate("botButton"), options.miniAppUrl).resized();
+    await ctx.reply(translate("botWelcome"), { reply_markup: keyboard });
   });
 
   bot.on("message:web_app_data", async (ctx) => {
@@ -28,10 +27,7 @@ export function createBot(token: string, options: BotRuntimeOptions): Bot {
       await ctx.reply("I could not read that order. Open the skin scanner and add a product again.");
       return;
     }
-    const text = formatOrderReply(
-      { ...payload, lang: payload.lang || ctx.from?.language_code || "en" },
-      options.orderBaseUrl,
-    );
+    const text = formatOrderReply(payload, options.orderBaseUrl);
     await ctx.reply(text, {
       parse_mode: "HTML",
       link_preview_options: { is_disabled: true },

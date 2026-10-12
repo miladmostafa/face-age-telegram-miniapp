@@ -1,7 +1,7 @@
 {
   "name": "face-age-telegram-miniapp",
   "version": "1.0.0",
-  "description": "Telegram Mini App skin scanner for beauty shops. Embeds the Face Age widget in the shopper's language, with RTL, and hands the cart to a grammY bot.",
+  "description": "Telegram Mini App skin scanner for beauty shops. Embeds the Face Age widget in English and hands the cart to a grammY bot.",
   "keywords": [
     "telegram",
     "telegram-mini-app",
@@ -11,7 +11,6 @@
     "face-age",
     "skincare",
     "beauty",
-    "rtl",
     "grammy",
     "vite",
     "typescript"

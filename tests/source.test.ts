@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -41,6 +41,16 @@ describe("repository guards", () => {
         expect(scanned.toLowerCase(), path).not.toContain(name);
       }
     }
+  });
+
+  it("keeps product copy in English", () => {
+    const paths = [...files.filter((file) => statSafe(file)), ...roots.flatMap((root) => collect(root))];
+    const nonLatin = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF\u0400-\u04FF]/;
+    for (const path of paths) {
+      if (path.endsWith(".png") || path.endsWith(".jpg")) continue;
+      expect(readFileSync(path, "utf8"), path).not.toMatch(nonLatin);
+    }
+    expect(existsSync(join("docs", "screenshots", "scanner-fa.png"))).toBe(false);
   });
 
   it("mounts Face Age directly in the page", () => {
