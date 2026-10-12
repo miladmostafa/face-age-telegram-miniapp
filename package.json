@@ -1,0 +1,57 @@
+{
+  "name": "face-age-telegram-miniapp",
+  "version": "1.0.0",
+  "description": "Telegram Mini App skin scanner for beauty shops. Embeds the Face Age widget in the shopper's language, with RTL, and hands the cart to a grammY bot.",
+  "keywords": [
+    "telegram",
+    "telegram-mini-app",
+    "telegram-bot",
+    "skin-scanner",
+    "skin-analysis",
+    "face-age",
+    "skincare",
+    "beauty",
+    "rtl",
+    "grammy",
+    "vite",
+    "typescript"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "vitest run",
+    "lint": "eslint .",
+    "bot": "tsx bot/index.ts",
+    "check": "npm run lint && npm run test && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miladmostafa/face-age-telegram-miniapp.git"
+  },
+  "homepage": "https://github.com/miladmostafa/face-age-telegram-miniapp#readme",
+  "bugs": {
+    "url": "https://github.com/miladmostafa/face-age-telegram-miniapp/issues"
+  },
+  "dependencies": {
+    "face-age": "^2.4.13",
+    "grammy": "^1.38.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^24.5.2",
+    "dotenv": "^17.2.2",
+    "eslint": "^9.36.0",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.0",
+    "vite": "^7.1.5",
+    "vitest": "^3.2.4"
+  }
+}
