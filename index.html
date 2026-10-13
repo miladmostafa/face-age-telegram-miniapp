@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fff8fb" />
+    <meta
+      name="description"
+      content="Telegram Mini App skin scanner for beauty shops. Face Age estimates skin age and visible concerns in English, then sends the cart to the shop bot."
+    />
+    <title>Telegram skin scanner</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <header class="hero">
+        <p class="eyebrow" id="eyebrow">Telegram skin scanner</p>
+        <p class="shop" id="shop-name">Lumen Atelier</p>
+        <h1 id="title">Check your skin</h1>
+        <p class="lede" id="lede">
+          Scan your skin, see a cosmetic skin-age estimate, then send the products you want to this shop.
+        </p>
+      </header>
+
+      <section id="setup" class="card" hidden>
+        <h2 id="setup-title">Add your Face Age Client ID</h2>
+        <p id="setup-body">The skin scanner stays hidden until this Mini App has a Client ID.</p>
+        <ol>
+          <li id="setup-step-1">Open the Face Age panel and create a Client ID.</li>
+          <li id="setup-step-2">Put it in VITE_FACEAGE_CLIENT_ID.</li>
+          <li id="setup-step-3">Restart the Mini App.</li>
+        </ol>
+        <p>
+          <a href="https://panel.getfaceage.com/">Get a Client ID at panel.getfaceage.com</a>
+        </p>
+      </section>
+
+      <section id="scanner" hidden>
+        <p id="camera-note" class="note"></p>
+        <div id="FaceAge-module"></div>
+        <form class="card share" id="share-form">
+          <label class="share-label">
+            <input id="share-results" type="checkbox" />
+            <span id="share-label">Share my skin summary with the shop</span>
+          </label>
+          <p id="share-hint" class="muted"></p>
+        </form>
+        <section class="card" id="shelf">
+          <h2 id="shelf-title">Sample shelf</h2>
+          <p id="shelf-body" class="muted"></p>
+          <ul id="shelf-list" class="shelf-list"></ul>
+        </section>
+      </section>
+
+      <section id="demo" class="card" hidden>
+        <p id="demo-note" class="muted"></p>
+        <button id="demo-order" type="button">Preview a sample order</button>
+      </section>
+
+      <section id="receipt" class="card" hidden aria-live="polite"></section>
+
+      <section id="privacy" class="card">
+        <h2 id="privacy-title">Privacy</h2>
+        <p id="privacy-p1"></p>
+        <p id="privacy-p2"></p>
+        <p id="privacy-p3"></p>
+      </section>
+
+      <footer>
+        <a href="https://getfaceage.com/">Face Age</a>
+        <a href="https://www.npmjs.com/package/face-age">face-age on npm</a>
+        <a href="https://panel.getfaceage.com/">Client ID panel</a>
+      </footer>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

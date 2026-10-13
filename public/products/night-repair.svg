@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img">
+  <title>Night Repair Cream jar</title>
+  <rect width="128" height="128" rx="28" fill="#ece7ff"/>
+  <rect x="34" y="36" width="60" height="16" rx="6" fill="#3d348b"/>
+  <rect x="30" y="50" width="68" height="50" rx="16" fill="#6c63ff"/>
+  <path d="M64 62l3 8h8l-6 5 2 8-7-5-7 5 2-8-6-5h8z" fill="#fff"/>
+</svg>

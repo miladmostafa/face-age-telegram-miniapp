@@ -1,0 +1,68 @@
+{
+  "shopName": "Lumen Atelier",
+  "currency": "$",
+  "products": [
+    {
+      "id": "cloud-serum",
+      "url": "https://getfaceage.com/?product=cloud-serum",
+      "image": "/products/cloud-serum.svg",
+      "title": "Cloud Serum",
+      "description": "Vitamin C · 30 ml",
+      "price": 42,
+      "offerPrice": 34,
+      "problems": ["pigment", "dullness", "acne"],
+      "routineGroups": { "morning": ["serum"] }
+    },
+    {
+      "id": "calm-cleanser",
+      "url": "https://getfaceage.com/?product=calm-cleanser",
+      "image": "/products/calm-cleanser.svg",
+      "title": "Calm Gel Cleanser",
+      "description": "Centella · 150 ml",
+      "price": 24,
+      "offerPrice": 19,
+      "problems": ["redness", "oiliness"],
+      "routineGroups": { "morning": ["cleanser"], "night": ["cleanser"] }
+    },
+    {
+      "id": "night-repair",
+      "url": "https://getfaceage.com/?product=night-repair",
+      "image": "/products/night-repair.svg",
+      "title": "Night Repair Cream",
+      "description": "Peptide cream · 50 ml",
+      "price": 54,
+      "offerPrice": 46,
+      "problems": ["fineWrinkles", "deepWrinkles", "sagginess"],
+      "routineGroups": { "night": ["moisturizer"] },
+      "variables": {
+        "size": {
+          "title": "Size",
+          "option": [
+            { "label": "30 ml", "value": "30", "price": 46, "offerPrice": 39 },
+            { "label": "50 ml", "value": "50", "price": 54, "offerPrice": 46 }
+          ]
+        }
+      }
+    },
+    {
+      "id": "eye-bright",
+      "url": "https://getfaceage.com/?product=eye-bright",
+      "image": "/products/eye-bright.svg",
+      "title": "Eye Bright Gel",
+      "description": "Caffeine · 15 ml",
+      "price": 28,
+      "problems": ["darkCircle", "eyeBag"],
+      "routineGroups": { "morning": ["serum"], "night": ["serum"] }
+    },
+    {
+      "id": "pore-veil",
+      "url": "https://getfaceage.com/?product=pore-veil",
+      "image": "/products/pore-veil.svg",
+      "title": "Pore Veil Toner",
+      "description": "Niacinamide · 120 ml",
+      "price": 22,
+      "problems": ["pores", "oiliness", "dryness"],
+      "routineGroups": { "morning": ["cleanser"] }
+    }
+  ]
+}

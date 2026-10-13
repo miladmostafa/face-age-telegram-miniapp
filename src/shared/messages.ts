@@ -1,0 +1,91 @@
+export const MESSAGE_KEYS = [
+  "eyebrow",
+  "title",
+  "lede",
+  "cameraNote",
+  "cameraNoteMobile",
+  "setupTitle",
+  "setupBody",
+  "setupStep1",
+  "setupStep2",
+  "setupStep3",
+  "shareLabel",
+  "shareHint",
+  "shelfTitle",
+  "shelfBody",
+  "demoButton",
+  "demoNote",
+  "receiptTitle",
+  "receiptPending",
+  "receiptSendData",
+  "receiptBot",
+  "receiptPreview",
+  "privacyTitle",
+  "privacyP1",
+  "privacyP2",
+  "privacyP3",
+  "mainButton",
+  "botWelcome",
+  "botButton",
+  "botOrderTitle",
+  "botNoPhoto",
+  "botShared",
+  "botSharedEmpty",
+  "botNotDiagnosis",
+  "botComplete",
+  "botMissingUrl",
+  "botSkinAge",
+  "botSkinDamage",
+] as const;
+
+export type MessageKey = (typeof MESSAGE_KEYS)[number];
+
+const EN: Record<MessageKey, string> = {
+  eyebrow: "Telegram skin scanner",
+  title: "Check your skin",
+  lede: "Scan your skin, see a cosmetic skin-age estimate, then send the products you want to this shop.",
+  cameraNote: "Use the camera or upload a photo inside the scanner.",
+  cameraNoteMobile: "The camera is not available in this browser. Use Upload photo in the scanner. It uses the same Face Age analysis.",
+  setupTitle: "Add your Face Age Client ID",
+  setupBody: "The skin scanner stays hidden until this Mini App has a Client ID. Nothing is hardcoded in the app.",
+  setupStep1: "Open the Face Age panel and create a Client ID.",
+  setupStep2: "Put it in VITE_FACEAGE_CLIENT_ID in .env.local (local) or your host's environment (production).",
+  setupStep3: "Restart the Mini App. The scanner opens in English.",
+  shareLabel: "Share my skin summary with the shop",
+  shareHint: "Off by default. Your photo is never sent to the shop bot. Scores are sent only when this box is checked.",
+  shelfTitle: "Sample shelf",
+  shelfBody: "These sample products are passed to Face Age with setCustomProducts. Add to cart inside the scanner to message the shop bot.",
+  demoButton: "Preview a sample order",
+  demoNote: "Outside Telegram this preview shows the order text. It does not upload a photo or invent a scan score.",
+  receiptTitle: "Order for the shop",
+  receiptPending: "Sending this product list to the shop bot.",
+  receiptSendData: "Telegram is delivering this order with WebApp.sendData. The bot replies in the chat with your order link.",
+  receiptBot: "The shop bot was asked to send the order link in your chat. Open the bot if you do not see it yet.",
+  receiptPreview: "This browser is not inside a Telegram handoff, so the order stays on this page. In Telegram, the same payload is sent to the bot.",
+  privacyTitle: "Privacy",
+  privacyP1: "Photos you capture or upload are analyzed in the Face Age cloud. The shop bot does not receive the photo.",
+  privacyP2: "Skin age, skin health, and the concern scores are cosmetic estimates. They are not a medical diagnosis or a treatment plan.",
+  privacyP3: "Add to cart sends the product name, price, and product link only. Skin scores are included only if you check “Share my skin summary with the shop”.",
+  mainButton: "Send order",
+  botWelcome: "Tap Check your skin to open the scanner. When you add a product, I reply with an order link. I do not receive your photo unless you explicitly share a skin summary.",
+  botButton: "Check your skin",
+  botOrderTitle: "New skin-scan order",
+  botNoPhoto: "Photo and skin scores were not included.",
+  botShared: "The shopper chose to share this cosmetic summary.",
+  botSharedEmpty: "The shopper opted in to share a summary, but no scores were available.",
+  botNotDiagnosis: "Cosmetic estimate only. Not a medical diagnosis.",
+  botComplete: "Complete this order",
+  botMissingUrl: "Set MINI_APP_URL so the Check your skin button can open the Mini App.",
+  botSkinAge: "Skin age: {value}",
+  botSkinDamage: "Skin damage: {value}%",
+};
+
+export function translate(key: MessageKey, vars?: Record<string, string | number>): string {
+  let text = EN[key];
+  if (vars) {
+    for (const [name, value] of Object.entries(vars)) {
+      text = text.replaceAll(`{${name}}`, String(value));
+    }
+  }
+  return text;
+}
