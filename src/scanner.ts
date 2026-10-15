@@ -41,14 +41,33 @@ export async function mountScanner(options: ScannerMountOptions): Promise<void> 
 
   faceAge.render();
   faceAge.API.setCustomProducts(options.products);
-  void faceAge.API.getAdvisorData((data) => {
-    options.handlers.onAnalysis(data.analysis);
-  });
+  // face-age 2.4.13+ clears productLists inside submitSkinAnalyze. The result
+  // callback runs after that clear, which is when the catalog has to go back
+  // so the Products tab can recommend this shop's shelf.
+  reapplyCatalogOnResult(faceAge.API, options.products, options.handlers.onAnalysis);
   void faceAge.onAddToCart((lines) => {
     options.handlers.onAddToCart(lines ?? []);
   });
   void faceAge.onCheckout((lines) => {
     options.handlers.onCheckout(lines ?? []);
+  });
+}
+
+/**
+ * Register the analysis result callback and put `products` back when it fires.
+ * The preload from `setCustomProducts` does not survive the scan.
+ */
+export function reapplyCatalogOnResult(
+  api: {
+    setCustomProducts(products: FaceAgeProduct[]): void;
+    getAdvisorData(callback: (data: { analysis: unknown }) => void): Promise<unknown>;
+  },
+  products: FaceAgeProduct[],
+  onAnalysis: (analysis: unknown) => void,
+): void {
+  void api.getAdvisorData((data) => {
+    api.setCustomProducts(products);
+    onAnalysis(data.analysis);
   });
 }
 

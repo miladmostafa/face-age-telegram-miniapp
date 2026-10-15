@@ -116,7 +116,7 @@ Telegram only accepts an **HTTPS** Mini App URL (a tunnel or a deployed host). `
 
 `data/sample-products.json` is a five-product shelf (serum, cleanser, night cream, eye gel, toner). Edit that file to match a real catalog. Each product needs an `id`, `title`, `price`, an `http` or `https` `url`, and an image path. Concern keys use the Face Age names: `fineWrinkles`, `eyeWrinkles`, `deepWrinkles`, `darkCircle`, `eyeBag`, `pores`, `pigment`, `redness`, `oiliness`, `dryness`, `sagginess`, `dullness`, `acne`.
 
-The page resolves image paths to absolute URLs and calls `faceAge.API.setCustomProducts()` after `render()`.
+The page resolves image paths to absolute URLs and calls `faceAge.API.setCustomProducts()` after `render()`. Face Age 2.4.13 and newer clear that preloaded catalog when a scan is submitted, so the same catalog is applied again when the analysis result callback runs. That is what fills the Products tab.
 
 ### Language
 

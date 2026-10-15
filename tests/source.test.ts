@@ -60,6 +60,8 @@ describe("repository guards", () => {
     expect(html).not.toContain("<iframe");
     expect(scanner).toContain('elementId: "FaceAge-module"');
     expect(scanner).toContain("setCustomProducts");
+    expect(scanner).toContain("reapplyCatalogOnResult");
+    expect(scanner).toMatch(/getAdvisorData\(\(data\) => \{[\s\S]*setCustomProducts\(products\)/);
     expect(scanner).toContain("onAddToCart");
     expect(scanner).toContain("onCheckout");
     expect(scanner).toContain("showUpload: true");
